@@ -1,52 +1,53 @@
-//Aaron Chow
-//AP Computer Science Block 3
-//This is my original Landscape design
-
+Particle [] asteroid = new Particle[200];
+//Particle star = new OddballParticle();
 void setup()
 {
-  size(425,425);
+	size(500,500);
+	for(int index = 0; index < asteroid.length; index++)
+		asteroid[index] = new NormalParticle();
 }
 void draw()
 {
-  background(0, 166,255);
-  sun();
-  clouds();
-  hills();
-  road();
-  nightTime();
+	background(0);
+	for(int index = 0; index < asteroid.length; index++)
+	{
+		asteroid[index].show();
+		asteroid[index].move();
+	}
 }
-void clouds()
+interface Particle
 {
-  fill(255, 255, 255);
-  ellipse(286,79,106,76);
-  ellipse(341,77,64,56);
-  ellipse(223,77,64,56);
+	public void show();
+	public void move();
 }
-void hills()
+class NormalParticle implements Particle
 {
-  fill(46, 199, 94);
-  noStroke();
-  ellipse(117,339,432,236);
-  ellipse(329,369,322,200);
+	float myX;
+	float myY;
+	int dTheta;
+	float speed;
+	int normalColor;
+	NormalParticle()
+	{
+		myX = 250;
+		myY = 250;
+		dTheta = (int)((Math.random()*20) * Math.PI);
+		speed = (float)(Math.random()*10);
+	}
+	public void show()
+	{
+		noStroke();
+		normalColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
+		fill(normalColor);
+		ellipse(myX,myY,10,10);
+	}
+	public void move()
+	{
+		myX = myX + (float)((Math.cos(dTheta)) * speed);
+		myY = myY + (float)((Math.sin(dTheta)) * speed);
+	}
 }
-void sun()
-{
-  fill(230, 220, 32);
-  ellipse(mouseX,mouseY,150,150);
-}
-void road()
-{
-  fill(0, 0, 0);
-  bezier(216,514,98,436,348,244,347,273);
-}
-void nightTime()
-{
-	if(mouseY>117 && mouseY>339)
-		{
-		background(0,0,0);
-        sun();
-  		clouds();
-  		hills();
-  		road();
-		}
-}
+//class OddballParticle implements Particle
+//{
+
+//
